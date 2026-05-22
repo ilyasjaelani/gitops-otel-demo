@@ -1,0 +1,12 @@
+opentelemetry-demo:
+  # Jika Anda ingin menyambungkan ke Grafana Tempo milik Anda sendiri (di luar demo ini):
+  # opentelemetry-collector:
+  #   config:
+  #     exporters:
+  #       otlp:
+  #         endpoint: "tempo-collector.monitoring.svc.cluster.local:4317"
+  
+  # Defaultnya semua komponen (Frontend, Jaeger/Tempo internal, Prometheus) akan menyala otomatis.
+  components:
+    frontend:
+      replicaCount: 1

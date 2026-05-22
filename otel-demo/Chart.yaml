@@ -1,0 +1,10 @@
+apiVersion: v2
+name: my-otel-demo
+description: Jalankan OTel Demo via GitOps
+type: application
+version: 1.0.0
+appVersion: 0.33.0
+dependencies:
+  - name: opentelemetry-demo
+    version: 0.33.0 # Versi Helm Chart OTel
+    repository: https://open-telemetry.github.io/opentelemetry-helm-charts
