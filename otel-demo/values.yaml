@@ -7,6 +7,6 @@ opentelemetry-demo:
   #         endpoint: "tempo-collector.monitoring.svc.cluster.local:4317"
   
   # Defaultnya semua komponen (Frontend, Jaeger/Tempo internal, Prometheus) akan menyala otomatis.
-  components:
-    frontend:
-      replicaCount: 1
+  #components:
+  #  frontend:
+  #    replicaCount: 1
