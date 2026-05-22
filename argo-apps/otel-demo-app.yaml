@@ -1,0 +1,30 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: opentelemetry-demo
+  namespace: argocd # Namespace tempat Argo CD berjalan
+spec:
+  project: default
+  source:
+    repoURL: 'https://open-telemetry.github.io/opentelemetry-helm-charts'
+    chart: opentelemetry-demo
+    targetRevision: 0.33.0 # Gunakan versi spesifik yang stabil
+    helm:
+      # Sediakan parameter custom di sini jika diperlukan
+      values: |
+        components:
+          frontend:
+            replicaCount: 1
+        # Jika Anda sudah punya Grafana/Tempo sendiri di cluster,
+        # Anda bisa mematikan default grafana bawaan demo ini:
+        opentelemetry-collector:
+          enabled: true
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: otel-demo # Namespace tujuan aplikasi
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

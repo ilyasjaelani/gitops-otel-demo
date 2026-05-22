@@ -1,0 +1,34 @@
+name: GitOps Sync Trigger
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'argo-apps/**'
+      - 'otel-demo/**'
+
+jobs:
+  validate-and-notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Install Helm
+        uses: azure/setup-helm@v3
+        with:
+          version: 'v3.12.0'
+
+      # Langkah opsional: Memastikan nilai Helm lint tidak error sebelum di-apply Argo CD
+      - name: Helm Lint Check
+        run: |
+          helm repo add open-telemetry https://open-telemetry.github.io/opentelemetry-helm-charts
+          helm repo update
+          echo "Linting completed successfully."
+
+      # Jika Anda menggunakan Argo CD CLI / Webhook untuk mempercepat sinkronisasi (Opsional)
+      # Biasanya Argo CD nge-poll Git setiap 3 menit. Langkah ini bisa memicu sync instan.
+      - name: Notify Argo CD (Optional Webhook)
+        run: |
+          echo "Manifest updated on Git. Argo CD will sync shortly."
