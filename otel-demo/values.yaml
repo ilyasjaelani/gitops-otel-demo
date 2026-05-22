@@ -11,20 +11,24 @@ opentelemetry-demo:
     frontend:
       enabled: true
   #    replicaCount: 1
-  # 1. Hapus pembatasan global untuk komponen standar
-  default:
-    resources:
-      limits: null
-      requests: null
+    kafka:
+      resources:
+        limits:
+          memory: 250Mi
+        requests:
+          memory: 100Mi
 
-  # 2. override khusus untuk Kafka agar muat di memori kecil
-  kafka:
-    resources:
-      limits:
-        memory: 300Mi
-      requests:
-        memory: 100Mi
-    # Mengubah env variable bawaan kafka di dalam pod
-    env:
-      - name: KAFKA_HEAP_OPTS
-        value: "-Xmx128M -Xms128M"
+    # Kita potong juga untuk adservice & recommendation yang biasanya haus RAM
+    adservice:
+      resources:
+        limits:
+          memory: 200Mi
+        requests:
+          memory: 100Mi
+          
+    recommendationservice:
+      resources:
+        limits:
+          memory: 200Mi
+        requests:
+          memory: 100Mi
